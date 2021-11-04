@@ -86,7 +86,7 @@ class DashState:
         if event == SHIFT_DOWN:
             boy.timer = 1000
         elif event == SHIFT_UP:
-            boy.timer = 1000
+            pass
         boy.dir = boy.velocity
 
     def exit(boy, event):
@@ -107,12 +107,12 @@ class DashState:
         if boy.velocity == 1:
             boy.image.clip_draw(boy.frame * 100, 100, 100, 100, boy.x, boy.y)
             if revel:
-                boy.velocity -= 1
+                boy.velocity = 0
                 revel = False
         else:
             boy.image.clip_draw(boy.frame * 100, 0, 100, 100, boy.x, boy.y)
             if revel:
-                boy.velocity += 1
+                boy.velocity = 0
                 revel = False
 
 class SleepState:
@@ -135,7 +135,7 @@ class SleepState:
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SLEEP_TIMER: SleepState},
     RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, RIGHT_DOWN: IdleState, LEFT_DOWN: IdleState, SHIFT_DOWN: DashState},
-    DashState: {SHIFT_DOWN: RunState, SHIFT_UP: RunState, RIGHT_UP and LEFT_UP: IdleState},
+    DashState: {SHIFT_UP: RunState, RIGHT_UP or LEFT_UP: IdleState},
     SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState, LEFT_UP: RunState, RIGHT_UP: RunState}
 }
 
